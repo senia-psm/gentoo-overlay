@@ -33,8 +33,8 @@ EGIT_BRANCH="rtw88"
 
 MODDES_LIBDIR="kernel/drivers/net/wireless/realtek/rtw88"
 MODULE_NAMES="
-	rtl_core(${MODDES_LIBDIR})
-	rtl_pci(${MODDES_LIBDIR})
+	rtw_core(${MODDES_LIBDIR})
+	rtw_pci(${MODDES_LIBDIR})
 "
 
 pkg_setup() {

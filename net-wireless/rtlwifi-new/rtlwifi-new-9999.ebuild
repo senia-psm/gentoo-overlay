@@ -36,7 +36,7 @@ RDEPEND="
 "
 
 EGIT_REPO_URI="https://github.com/lwfinger/rtlwifi_new.git"
-EGIT_BRANCH="extended"
+EGIT_BRANCH="rtw88"
 
 MODDES_LIBDIR="kernel/drivers/net/wireless/realtek/rtlwifi"
 MODULE_NAMES="

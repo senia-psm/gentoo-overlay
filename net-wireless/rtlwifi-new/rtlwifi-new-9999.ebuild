@@ -61,9 +61,9 @@ src_prepare() {
 	default
 }
 
-src_install() {
-	linux-mod_src_install
-
-	insinto /lib/firmware/rtw88/
-	doins *.bin
-}
+#src_install() {
+#	linux-mod_src_install
+#
+#	insinto /lib/firmware/rtw88/
+#	doins *.bin
+#}

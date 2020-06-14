@@ -12,10 +12,10 @@ LICENSE="GPL-2 linux-firmware"
 SLOT="0"
 #KEYWORDS=""
 IUSE="
-	rtw8723de
-	rtw8821ce
-	rtw8822be
-	rtw8822ce
+	rtl8723de
+	rtl8821ce
+	rtl8822be
+	rtl8822ce
 "
 
 REQUIRED_USE="|| ( ${IUSE} )"
@@ -42,17 +42,17 @@ pkg_setup() {
 
 	BUILD_TARGETS="clean all"
 
-	use rtw8723de && MODULE_NAMES+=" rtw_8723de(${MODDES_LIBDIR})"
-	use rtw8723de && MODULE_NAMES+=" rtw_8723d(${MODDES_LIBDIR})"
+	use rtl8723de && MODULE_NAMES+=" rtw_8723de(${MODDES_LIBDIR})"
+	use rtl8723de && MODULE_NAMES+=" rtw_8723d(${MODDES_LIBDIR})"
 
-	use rtw8821ce && MODULE_NAMES+=" rtw_8821ce(${MODDES_LIBDIR})"
-	use rtw8821ce && MODULE_NAMES+=" rtw_8821c(${MODDES_LIBDIR})"
+	use rtl8821ce && MODULE_NAMES+=" rtw_8821ce(${MODDES_LIBDIR})"
+	use rtl8821ce && MODULE_NAMES+=" rtw_8821c(${MODDES_LIBDIR})"
 
-	use rtw8822be && MODULE_NAMES+=" rtw_8822be(${MODDES_LIBDIR})"
-	use rtw8822be && MODULE_NAMES+=" rtw_8822b(${MODDES_LIBDIR})"
+	use rtl8822be && MODULE_NAMES+=" rtw_8822be(${MODDES_LIBDIR})"
+	use rtl8822be && MODULE_NAMES+=" rtw_8822b(${MODDES_LIBDIR})"
 
-	use rtw8822ce && MODULE_NAMES+=" rtw_8822ce(${MODDES_LIBDIR})"
-	use rtw8822ce && MODULE_NAMES+=" rtw_8822c(${MODDES_LIBDIR})"
+	use rtl8822ce && MODULE_NAMES+=" rtw_8822ce(${MODDES_LIBDIR})"
+	use rtl8822ce && MODULE_NAMES+=" rtw_8822c(${MODDES_LIBDIR})"
 }
 
 src_prepare() {

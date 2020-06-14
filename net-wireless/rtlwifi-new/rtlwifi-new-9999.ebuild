@@ -6,7 +6,7 @@ EAPI=6
 inherit linux-mod git-r3
 
 DESCRIPTION="Newest Realtek rtlwifi"
-HOMEPAGE="https://github.com/lwfinger/rtlwifi_new/tree/extended"
+HOMEPAGE="https://github.com/lwfinger/rtlwifi_new/tree/rtw88"
 
 LICENSE="GPL-2 linux-firmware"
 SLOT="0"

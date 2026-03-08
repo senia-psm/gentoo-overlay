@@ -6,7 +6,7 @@ EAPI=8
 # LuaJIT is supported via lua_single_target_luajit USE flag
 LUA_COMPAT=( lua5-{3..4} luajit )
 
-inherit linux-info lua-single systemd toolchain-funcs
+inherit linux-info lua-single systemd
 
 DESCRIPTION="Anti-DPI tool to bypass HTTP(S)/VPN blocking and throttling"
 HOMEPAGE="https://github.com/bol-van/zapret2"

@@ -47,14 +47,16 @@ CONFIG_CHECK="
 "
 
 ERROR_NFT_QUEUE="
-	CONFIG_NFT_QUEUE is not set. nfqws2 requires either
-	CONFIG_NFT_QUEUE (nftables) or CONFIG_NETFILTER_XT_TARGET_NFQUEUE
-	(iptables) to intercept packets via NFQUEUE.
+	CONFIG_NFT_QUEUE (nftables NFQUEUE target) is not set.
+	nfqws2 needs at least one of CONFIG_NFT_QUEUE or
+	CONFIG_NETFILTER_XT_TARGET_NFQUEUE to intercept packets.
+	If you use iptables instead of nftables, this warning can be ignored.
 "
 ERROR_NETFILTER_XT_TARGET_NFQUEUE="
-	CONFIG_NETFILTER_XT_TARGET_NFQUEUE is not set. nfqws2 requires either
-	CONFIG_NFT_QUEUE (nftables) or CONFIG_NETFILTER_XT_TARGET_NFQUEUE
-	(iptables) to intercept packets via NFQUEUE.
+	CONFIG_NETFILTER_XT_TARGET_NFQUEUE (iptables NFQUEUE target) is not set.
+	nfqws2 needs at least one of CONFIG_NFT_QUEUE or
+	CONFIG_NETFILTER_XT_TARGET_NFQUEUE to intercept packets.
+	If you use nftables instead of iptables, this warning can be ignored.
 "
 ERROR_NF_CONNTRACK="
 	CONFIG_NF_CONNTRACK is not set. Connection tracking is required

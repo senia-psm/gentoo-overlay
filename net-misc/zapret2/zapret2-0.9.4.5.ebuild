@@ -37,6 +37,7 @@ ZAPRET_DIR=/opt/zapret2
 # Mandatory: NFQUEUE — the core packet interception mechanism.
 # Either the nftables or iptables NFQUEUE target must be enabled.
 # nf_conntrack is required for per-flow packet counting in firewall rules.
+# NFT_FLOW_OFFLOAD is optional: only needed when FLOWOFFLOAD=software/hardware.
 CONFIG_CHECK="
 	~NETFILTER
 	~NF_CONNTRACK
@@ -44,6 +45,7 @@ CONFIG_CHECK="
 	~NF_TABLES
 	~NF_TABLES_INET
 	~NFT_CT
+	~NFT_FLOW_OFFLOAD
 	~NFT_QUEUE
 	~NETFILTER_XT_TARGET_NFQUEUE
 	~NETFILTER_XT_MATCH_CONNBYTES
@@ -73,6 +75,12 @@ ERROR_NF_TABLES_INET="
 	CONFIG_NF_TABLES_INET is not set. The nftables inet address family
 	is required for combined IPv4/IPv6 firewall rules.
 	If you use iptables instead of nftables, this warning can be ignored.
+"
+
+ERROR_NFT_FLOW_OFFLOAD="
+	CONFIG_NFT_FLOW_OFFLOAD is not set. This is only needed when
+	FLOWOFFLOAD=software or FLOWOFFLOAD=hardware is set in the config.
+	If you do not use flow offloading, this warning can be ignored.
 "
 
 pkg_setup() {

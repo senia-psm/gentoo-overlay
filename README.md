@@ -4,11 +4,12 @@ Yet another Gentoo overlay
 # Realtek rtlwifi
 See https://github.com/lwfinger/rtlwifi_new
 
-## Add repository with `layman`
+## Add repository with `eselect repository`
 ```bash
-sudo layman -o https://github.com/senia-psm/gentoo-overlay/releases/download/overlay.xml/overlay.xml -L
-sudo layman -o https://github.com/senia-psm/gentoo-overlay/releases/download/overlay.xml/overlay.xml -a senia
+sudo eselect repository add senia git https://github.com/senia-psm/gentoo-overlay.git
+sudo emaint sync -r senia
 ```
+See more in [Gentoo Wiki: eselect/repository](https://wiki.gentoo.org/wiki/Eselect/Repository).
 
 ## Allow `**` for `rtlwifi-new`
 ```bash

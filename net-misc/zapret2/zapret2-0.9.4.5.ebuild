@@ -23,7 +23,7 @@ DEPEND="
 	net-libs/libmnl
 	sys-libs/zlib
 	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( dev-lang/lua:5.5 )
+	!luajit? ( dev-lang/lua:5.4 )
 	systemd? ( sys-apps/systemd )
 "
 RDEPEND="${DEPEND}"
@@ -77,8 +77,8 @@ src_compile() {
 		lua_cflags="$($(tc-getPKG_CONFIG) --cflags luajit)"
 		lua_lib="$($(tc-getPKG_CONFIG) --libs luajit)"
 	else
-		lua_cflags="$($(tc-getPKG_CONFIG) --cflags lua5.5)"
-		lua_lib="$($(tc-getPKG_CONFIG) --libs lua5.5)"
+		lua_cflags="$($(tc-getPKG_CONFIG) --cflags lua5.4)"
+		lua_lib="$($(tc-getPKG_CONFIG) --libs lua5.4)"
 	fi
 
 	emake -C nfq2 "${target}" \

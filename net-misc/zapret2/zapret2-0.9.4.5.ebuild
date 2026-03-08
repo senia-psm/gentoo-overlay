@@ -42,6 +42,7 @@ CONFIG_CHECK="
 	~NF_CONNTRACK
 	~NF_CONNTRACK_MARK
 	~NF_TABLES
+	~NF_TABLES_INET
 	~NFT_CT
 	~NFT_QUEUE
 	~NETFILTER_XT_TARGET_NFQUEUE
@@ -66,6 +67,12 @@ ERROR_NF_CONNTRACK="
 	CONFIG_NF_CONNTRACK is not set. Connection tracking is required
 	for per-flow packet counting in nftables (ct original packets)
 	or iptables (connbytes) firewall rules.
+"
+
+ERROR_NF_TABLES_INET="
+	CONFIG_NF_TABLES_INET is not set. The nftables inet address family
+	is required for combined IPv4/IPv6 firewall rules.
+	If you use iptables instead of nftables, this warning can be ignored.
 "
 
 pkg_setup() {

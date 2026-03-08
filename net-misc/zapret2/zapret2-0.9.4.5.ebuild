@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit systemd toolchain-funcs
+inherit linux-info systemd toolchain-funcs
 
 DESCRIPTION="Anti-DPI tool to bypass HTTP(S)/VPN blocking and throttling"
 HOMEPAGE="https://github.com/bol-van/zapret2"
@@ -29,6 +29,44 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 ZAPRET_DIR=/opt/zapret2
+
+# Mandatory: NFQUEUE — the core packet interception mechanism.
+# Either the nftables or iptables NFQUEUE target must be enabled.
+# nf_conntrack is required for per-flow packet counting in firewall rules.
+CONFIG_CHECK="
+	~NETFILTER
+	~NF_CONNTRACK
+	~NF_CONNTRACK_MARK
+	~NF_TABLES
+	~NFT_CT
+	~NFT_QUEUE
+	~NETFILTER_XT_TARGET_NFQUEUE
+	~NETFILTER_XT_MATCH_CONNBYTES
+	~SECCOMP
+	~SECCOMP_FILTER
+"
+
+ERROR_NFT_QUEUE="
+	CONFIG_NFT_QUEUE (nftables NFQUEUE target) is not set.
+	nfqws2 needs at least one of CONFIG_NFT_QUEUE or
+	CONFIG_NETFILTER_XT_TARGET_NFQUEUE to intercept packets.
+	If you use iptables instead of nftables, this warning can be ignored.
+"
+ERROR_NETFILTER_XT_TARGET_NFQUEUE="
+	CONFIG_NETFILTER_XT_TARGET_NFQUEUE (iptables NFQUEUE target) is not set.
+	nfqws2 needs at least one of CONFIG_NFT_QUEUE or
+	CONFIG_NETFILTER_XT_TARGET_NFQUEUE to intercept packets.
+	If you use nftables instead of iptables, this warning can be ignored.
+"
+ERROR_NF_CONNTRACK="
+	CONFIG_NF_CONNTRACK is not set. Connection tracking is required
+	for per-flow packet counting in nftables (ct original packets)
+	or iptables (connbytes) firewall rules.
+"
+
+pkg_setup() {
+	linux-info_pkg_setup
+}
 
 src_compile() {
 	local target="all"

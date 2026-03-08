@@ -53,8 +53,6 @@ src_compile() {
 }
 
 src_install() {
-	local zd="${ED}${ZAPRET_DIR}"
-
 	# Install binaries into binaries/my/ matching upstream layout.
 	# init scripts reference $ZAPRET_BASE/nfq2/nfqws2 which resolves
 	# via the symlinks upstream creates in install_bin.sh.
@@ -99,7 +97,13 @@ src_install() {
 	exeinto "${ZAPRET_DIR}"
 	doexe install_bin.sh install_easy.sh uninstall_easy.sh install_prereq.sh
 
-	# Default config — user copies this to /opt/zapret2/config
+	# Config file: installed to /etc/zapret2/config (CONFIG_PROTECT-ed),
+	# symlinked from /opt/zapret2/config for non-systemd consumers.
+	insinto /etc/zapret2
+	newins config.default config
+	dosym /etc/zapret2/config "${ZAPRET_DIR}/config"
+
+	# Also keep config.default in place for reference
 	insinto "${ZAPRET_DIR}"
 	doins config.default
 
@@ -117,9 +121,9 @@ src_install() {
 pkg_postinst() {
 	elog "zapret2 has been installed to ${ZAPRET_DIR}"
 	elog ""
-	elog "Before starting the service, create the config file:"
-	elog "  cp ${ZAPRET_DIR}/config.default ${ZAPRET_DIR}/config"
-	elog "  \${EDITOR} ${ZAPRET_DIR}/config"
+	elog "The config file is at /etc/zapret2/config (symlinked as"
+	elog "${ZAPRET_DIR}/config). Edit it before starting the service:"
+	elog "  \${EDITOR} /etc/zapret2/config"
 	elog ""
 	elog "At minimum, set NFQWS2_ENABLE=1 and configure IFACE_WAN"
 	elog "and NFQWS2_OPT in the config file."
@@ -132,10 +136,10 @@ pkg_postinst() {
 		elog "  systemctl enable --now zapret2-list-update.timer"
 		elog ""
 	fi
-	elog "WARNING: On package updates, ${ZAPRET_DIR}/config is"
-	elog "preserved only if it already exists — it will NOT be"
-	elog "overwritten by config.default. Custom scripts in"
-	elog "init.d/sysv/custom.d/ are also preserved."
+	elog "On package updates, /etc/zapret2/config is protected by"
+	elog "Portage's CONFIG_PROTECT mechanism — your edits will not"
+	elog "be overwritten. Use dispatch-conf or etc-update to merge"
+	elog "any new defaults after an upgrade."
 	elog ""
 	elog "Full documentation: ${ZAPRET_DIR}/docs/"
 }

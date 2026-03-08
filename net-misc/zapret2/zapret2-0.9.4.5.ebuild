@@ -3,7 +3,10 @@
 
 EAPI=8
 
-inherit linux-info systemd toolchain-funcs
+# LuaJIT is supported via lua_single_target_luajit USE flag
+LUA_COMPAT=( lua5-{3..4} luajit )
+
+inherit linux-info lua-single systemd
 
 DESCRIPTION="Anti-DPI tool to bypass HTTP(S)/VPN blocking and throttling"
 HOMEPAGE="https://github.com/bol-van/zapret2"
@@ -12,18 +15,19 @@ SRC_URI="https://github.com/bol-van/zapret2/archive/refs/tags/v${PV}.tar.gz -> $
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
-IUSE="luajit systemd"
+IUSE="systemd"
+
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 BDEPEND="
 	virtual/pkgconfig
 "
 DEPEND="
+	${LUA_DEPS}
 	net-libs/libnetfilter_queue
 	net-libs/libnfnetlink
 	net-libs/libmnl
 	sys-libs/zlib
-	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( dev-lang/lua:5.5 )
 	systemd? ( sys-apps/systemd )
 "
 RDEPEND="${DEPEND}"
@@ -65,6 +69,7 @@ ERROR_NF_CONNTRACK="
 "
 
 pkg_setup() {
+	lua-single_pkg_setup
 	linux-info_pkg_setup
 }
 
@@ -72,19 +77,13 @@ src_compile() {
 	local target="all"
 	use systemd && target="systemd"
 
-	local lua_cflags lua_lib
-	if use luajit; then
-		lua_cflags="$($(tc-getPKG_CONFIG) --cflags luajit)"
-		lua_lib="$($(tc-getPKG_CONFIG) --libs luajit)"
-	else
-		lua_cflags="$($(tc-getPKG_CONFIG) --cflags lua5.5)"
-		lua_lib="$($(tc-getPKG_CONFIG) --libs lua5.5)"
-	fi
+	local lua_jit=0
+	[[ ${ELUA} == luajit ]] && lua_jit=1
 
 	emake -C nfq2 "${target}" \
-		LUA_CFLAGS="${lua_cflags}" \
-		LUA_LIB="${lua_lib}" \
-		LUA_JIT=$(usex luajit 1 0)
+		LUA_CFLAGS="$(lua_get_CFLAGS)" \
+		LUA_LIB="$(lua_get_LIBS)" \
+		LUA_JIT=${lua_jit}
 
 	emake -C ip2net
 	emake -C mdig
